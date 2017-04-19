@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "85529611787",
+    "firebase_url": "https://musicfest-d1726.firebaseio.com",
+    "project_id": "musicfest-d1726",
+    "storage_bucket": "musicfest-d1726.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:85529611787:android:21762e79cb0c75df",
+        "android_client_info": {
+          "package_name": "es.upsa.mimo.musicfest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "85529611787-f80tj0a2vecpmgs5omcfg6lepfkboqbq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.upsa.mimo.musicfest",
+            "certificate_hash": "2b1db4c871cf3fcc52076861a4468fb49c9b936b"
+          }
+        },
+        {
+          "client_id": "85529611787-cjcnqltrrii3okshsd3eqkpa0lgmar5d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAygew29Bp_leiVxjKssnCcStE21xZ-JbQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "85529611787-cjcnqltrrii3okshsd3eqkpa0lgmar5d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
