@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/headernavview"
+    android:background="@drawable/navheader"
+    android:layout_width="match_parent"
+    android:paddingLeft="16dp"
+    android:layout_height="180dp">
+
+    <!-- Imagen de perfil -->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circle_image"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="16dp"
+        android:scaleType="centerCrop"
+        android:layout_centerVertical="true"
+        android:elevation="80dp"
+        android:src="@drawable/us"
+        app:border_color="@android:color/white"
+        app:border_width="1dp" />
+
+
+    <!--ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/navheader"
+        android:scaleType="centerCrop" /-->
+    <!-- Nombre de Usuario -->
+
+
+    <!-- Correo de la cuenta -->
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:text="correo"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Usuario"
+        android:layout_above="@id/email"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textStyle="bold" />
+    <!--TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="usuario"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
+        android:textStyle="bold"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp" /-->
+</RelativeLayout>

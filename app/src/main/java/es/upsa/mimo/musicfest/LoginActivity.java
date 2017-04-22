@@ -24,12 +24,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     private static final String TAG = "LoginActivity";
     private GoogleApiClient mGoogleApiClient;
-    private SignInButton btnSignin;
+    //private SignInButton btnSignin;
 
+    @BindView(R.id.sign_in_button)
+    Button btnSignin;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -37,7 +43,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        ButterKnife.bind(this);
         mAuth = FirebaseAuth.getInstance();
 
 
@@ -68,14 +74,19 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        btnSignin = (SignInButton) findViewById(R.id.sign_in_button);
-        btnSignin.setOnClickListener(new View.OnClickListener() {
+       // btnSignin = (SignInButton) findViewById(R.id.sign_in_button);
+       /* btnSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 signIn();
             }
-        });
+        });*/
     }
+    @OnClick(R.id.sign_in_button)
+    public  void onClick(){
+        signIn();
+    }
+
 
     @Override
     protected void onStart() {
@@ -120,9 +131,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
-        Log.d(TAG,"firebaseAuthWithGoogle"+account.getDisplayName());
-        Log.d(TAG,"firebaseAuthWithGoogle"+account.getEmail());
-        Log.d(TAG,"firebaseAuthWithGoogle"+account.getPhotoUrl());
+        
         Log.d(TAG,"Authenticated");
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(),null);
         mAuth.signInWithCredential(credential)
