@@ -1,4 +1,4 @@
-package es.upsa.mimo.musicfest;
+package es.upsa.mimo.musicfest.Activities;
 
 import android.content.res.Configuration;
 import android.os.PersistableBundle;
@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,8 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import es.upsa.mimo.musicfest.Fragments.EventsFragment;
+import es.upsa.mimo.musicfest.R;
 
 public class MenuActivity extends AppCompatActivity {
     private static final String TAG = "MenuActivity";
@@ -70,6 +73,7 @@ public class MenuActivity extends AppCompatActivity {
         switch (menuItem.getItemId()){
             case R.id.menu_seccion_1:
                 Toast.makeText(getApplicationContext(),"secccion1",Toast.LENGTH_SHORT).show();
+                fragment= EventsFragment.newInstance();
                 break;
             case R.id.amigos:
                 Toast.makeText(getApplicationContext(),"secccion2",Toast.LENGTH_SHORT).show();
@@ -78,6 +82,16 @@ public class MenuActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"secccion3",Toast.LENGTH_SHORT).show();
                 break;
         }
+        if (fragment != null) {
+            // Insert the fragment by replacing any existing fragment
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_layout, fragment).commit();
+            // Highlight the selected item, update the title, and close the drawer
+            menuItem.setChecked(true);
+            setTitle(menuItem.getTitle());
+        }
+
+        mDrawer.closeDrawers();
 
     }
 

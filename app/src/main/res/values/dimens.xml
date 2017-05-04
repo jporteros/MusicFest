@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="toolbar_elevation">8dp</dimen>
+    <dimen name="card_margin">8dp</dimen>
+    <dimen name="activity_horizontal_margin">20dp</dimen>
+    <dimen name="font_title">22sp</dimen>
+    <dimen name="card_image_height">200dp</dimen>
 
 </resources>
