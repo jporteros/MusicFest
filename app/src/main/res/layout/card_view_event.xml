@@ -24,8 +24,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-
-            tools:src="@drawable/es" />
+            android:src="@drawable/es"/>
 
         <TextView
             android:id="@+id/card_text"

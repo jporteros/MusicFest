@@ -1,6 +1,8 @@
 package es.upsa.mimo.musicfest.Adapters;
 
+import android.graphics.PixelFormat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +44,11 @@ public class CardAdapterEvent extends RecyclerView.Adapter<CardAdapterEvent.Even
             viewHolder.title.setText(event.getTitle());
             //TODO Probar a poner una de fondo y si la que se descarga es transparente se veria la otra
             Picasso.with(viewHolder.itemView.getContext()).load(event.getImg()).error(R.drawable.es).into(viewHolder.img);
-
+                Log.d("en adapter","atesdel if");
+          /*  if(viewHolder.img.getBackground().getOpacity() == PixelFormat.TRANSPARENT){
+                viewHolder.img.setImageResource(R.drawable.es);
+                Log.d("en adapater","dentro del if");
+            }*/
         }
 
     }

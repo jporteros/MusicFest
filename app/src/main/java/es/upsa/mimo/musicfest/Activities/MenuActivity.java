@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import es.upsa.mimo.musicfest.Fragments.AroundEventsFragment;
 import es.upsa.mimo.musicfest.Fragments.EventsFragment;
 import es.upsa.mimo.musicfest.R;
 
@@ -77,6 +78,7 @@ public class MenuActivity extends AppCompatActivity {
                 break;
             case R.id.amigos:
                 Toast.makeText(getApplicationContext(),"secccion2",Toast.LENGTH_SHORT).show();
+                fragment= AroundEventsFragment.newInstance();
                 break;
             case R.id.menu_seccion_3:
                 Toast.makeText(getApplicationContext(),"secccion3",Toast.LENGTH_SHORT).show();
