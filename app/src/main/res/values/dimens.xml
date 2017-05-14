@@ -3,7 +3,13 @@
     <dimen name="toolbar_elevation">8dp</dimen>
     <dimen name="card_margin">8dp</dimen>
     <dimen name="activity_horizontal_margin">20dp</dimen>
-    <dimen name="font_title">22sp</dimen>
+    <dimen name="font_title">18sp</dimen>
     <dimen name="card_image_height">200dp</dimen>
+    <dimen name="img_collapsing_height">300dp</dimen>
+    <dimen name="margin_cardView">10dp</dimen>
+    <dimen name="CornerRadius">2dp</dimen>
+    <dimen name="cardElevation">6dp</dimen>
+    <dimen name="margin_textView">16dp</dimen>
+    <dimen name="textSizeTitle">25sp</dimen>
 
 </resources>

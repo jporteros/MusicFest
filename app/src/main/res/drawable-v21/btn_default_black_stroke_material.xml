@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?android:colorControlHighlight" >
+
+    <!--The color in the item with the id "mask" is not displayed. It is used to tell the shape and bounds of the ripple effect.
+    Without it, it can go outside the bounds of the view.-->
+    <item android:id="@android:id/mask">
+
+        <inset
+            android:insetLeft="4dp"
+            android:insetTop="6dp"
+            android:insetRight="4dp"
+            android:insetBottom="6dp">
+
+            <shape android:shape="rectangle" >
+
+                <corners android:radius="2dp" />
+
+                <stroke android:width="1dp" android:color="@android:color/black"  />
+                <!--<stroke android:width="2dp" android:color="?attr/colorAccent"  />-->
+                <solid android:color="@android:color/white" />
+
+                <padding android:left="8dp"
+                    android:top="4dp"
+                    android:right="8dp"
+                    android:bottom="4dp" />
+
+            </shape>
+
+        </inset>
+
+    </item>
+
+    <item>
+
+        <inset
+            android:insetLeft="4dp"
+            android:insetTop="6dp"
+            android:insetRight="4dp"
+            android:insetBottom="6dp">
+
+            <shape android:shape="rectangle" >
+
+                <corners android:radius="2dp" />
+
+                <stroke android:width="1dp" android:color="@android:color/black"  />
+                <!--<stroke android:width="2dp" android:color="?attr/colorAccent"  />-->
+                <!--<solid android:color="@android:color/white" />-->
+
+                <padding android:left="8dp"
+                    android:top="4dp"
+                    android:right="8dp"
+                    android:bottom="4dp" />
+
+            </shape>
+
+        </inset>
+
+    </item>
+
+</ripple>

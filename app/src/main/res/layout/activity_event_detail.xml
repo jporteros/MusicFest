@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/detail_content"
+    tools:context="es.upsa.mimo.musicfest.Activities.EventDetailActivity"
+
+    android:fitsSystemWindows="true">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appbarCollapsing"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/img_collapsing_height"
+            android:id="@+id/collapsing_toolbar"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="72dp"
+            app:expandedTitleMarginStart="16dp"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/img_collapsing"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                android:background="@drawable/es"/>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:paddingTop="@dimen/margin_cardView">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/event_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_cardView"
+                android:layout_marginEnd="@dimen/margin_cardView"
+                android:layout_marginLeft="@dimen/margin_cardView"
+                android:layout_marginRight="@dimen/margin_cardView"
+                android:layout_marginStart="@dimen/margin_cardView"
+                android:layout_marginTop="@dimen/margin_cardView"
+                app:cardCornerRadius="@dimen/CornerRadius"
+                app:cardElevation="@dimen/cardElevation">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_textView"
+                        android:layout_marginLeft="@dimen/margin_textView"
+                        android:layout_marginRight="@dimen/margin_textView"
+                        android:layout_marginStart="@dimen/margin_textView"
+
+                        android:layout_marginTop="@dimen/margin_textView"
+                        android:text="Información"
+                        android:textColor="?attr/colorPrimaryDark"
+                        android:textSize="@dimen/textSizeTitle" />
+
+                    <TextView
+                        android:id="@+id/eventtittle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_textView"
+                        android:layout_marginStart="@dimen/margin_textView"
+                        android:layout_marginTop="@dimen/margin_cardView"
+                        android:text="Titulo Evento: "
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                    <TextView
+                        android:id="@+id/eventdateStart"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_textView"
+                        android:layout_marginStart="@dimen/margin_textView"
+                        android:layout_marginTop="@dimen/margin_cardView"
+                        android:text="Fecha de comienzo: "
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                    <TextView
+                        android:id="@+id/eventdateEnd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_textView"
+                        android:layout_marginStart="@dimen/margin_textView"
+                        android:layout_marginTop="@dimen/margin_cardView"
+                        android:text="Fecha de finalización: "
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                    <TextView
+                        android:id="@+id/eventtype"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_textView"
+                        android:layout_marginLeft="@dimen/margin_textView"
+                        android:layout_marginStart="@dimen/margin_textView"
+                        android:layout_marginTop="@dimen/margin_cardView"
+                        android:text="Tipo: "
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/event_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/event_info"
+                android:layout_marginBottom="@dimen/margin_cardView"
+                android:layout_marginEnd="@dimen/margin_cardView"
+                android:layout_marginLeft="@dimen/margin_cardView"
+                android:layout_marginRight="@dimen/margin_cardView"
+                android:layout_marginStart="@dimen/margin_cardView"
+                android:layout_marginTop="@dimen/margin_cardView"
+                app:cardCornerRadius="@dimen/CornerRadius"
+                app:cardElevation="@dimen/cardElevation">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_textView"
+                        android:layout_marginLeft="@dimen/margin_textView"
+                        android:layout_marginRight="@dimen/margin_textView"
+                        android:layout_marginStart="@dimen/margin_textView"
+                        android:id="@+id/localizacion"
+                        android:layout_marginTop="@dimen/margin_textView"
+                        android:text="Localización"
+                        android:textColor="?attr/colorPrimaryDark"
+                        android:textSize="@dimen/textSizeTitle" />
+
+                    <TextView
+                        android:id="@+id/eventCity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:layout_below="@id/localizacion"
+                        android:layout_marginLeft="@dimen/margin_textView"
+                        android:layout_marginStart="@dimen/margin_textView"
+                        android:layout_marginTop="@dimen/margin_cardView"
+                        android:text="Ciudad del Evento: "
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                    <TextView
+                        android:id="@+id/eventVenue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/eventCity"
+                        android:layout_marginLeft="@dimen/margin_textView"
+                        android:layout_marginStart="@dimen/margin_textView"
+                        android:layout_marginTop="@dimen/margin_cardView"
+                        android:text="Lugar del Evento: "
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                    <TextView
+                        android:id="@+id/eventLatLng"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/eventVenue"
+                        android:layout_marginLeft="@dimen/margin_textView"
+                        android:layout_marginStart="@dimen/margin_textView"
+                        android:layout_marginTop="@dimen/margin_cardView"
+
+                        android:layout_marginBottom="@dimen/margin_textView"
+                        android:text="Latitud y Longitud: "
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+                    <android.support.design.widget.FloatingActionButton
+                        android:layout_height="wrap_content"
+                        android:id="@+id/fab_map"
+                        android:layout_width="wrap_content"
+                        app:layout_anchorGravity="top|right|end"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/ic_map"
+                        android:layout_margin="16dp"
+                        android:clickable="true"
+                        app:elevation="10sp"
+                        app:borderWidth="0dp"/>
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/event_comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/event_location"
+                android:layout_marginBottom="@dimen/margin_cardView"
+                android:layout_marginEnd="@dimen/margin_cardView"
+                android:layout_marginLeft="@dimen/margin_cardView"
+                android:layout_marginRight="@dimen/margin_cardView"
+                android:layout_marginStart="@dimen/margin_cardView"
+                android:layout_marginTop="@dimen/margin_cardView"
+                app:cardCornerRadius="@dimen/CornerRadius"
+                app:cardElevation="@dimen/cardElevation"
+                android:fitsSystemWindows="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:fitsSystemWindows="true">
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_textView"
+                    android:layout_marginLeft="@dimen/margin_textView"
+                    android:layout_marginRight="@dimen/margin_textView"
+                    android:layout_marginStart="@dimen/margin_textView"
+                    android:layout_marginTop="@dimen/margin_textView"
+                    android:text="Comentarios"
+                    android:textColor="?attr/colorPrimaryDark"
+                    android:textSize="@dimen/textSizeTitle" />
+
+                    <RelativeLayout
+                        android:id="@+id/linear_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_textView"
+                        android:layout_marginStart="@dimen/margin_textView"
+                        android:layout_marginRight="@dimen/margin_textView"
+                        android:layout_marginEnd="@dimen/margin_textView"
+                        android:layout_marginTop="@dimen/margin_textView"
+                        android:fitsSystemWindows="true"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true">
+
+                      <include layout="@layout/btn_send"
+                          android:id="@+id/btn_comment"/>
+
+                        <EditText
+                            android:id="@+id/comment_body"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toStartOf="@+id/btn_comment"
+                            android:layout_toLeftOf="@+id/btn_comment"
+                            android:maxLines="1"
+                            android:fitsSystemWindows="true"
+                            android:hint="Escribe un comentario"/>
+
+                    </RelativeLayout>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerview_comments"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/margin_cardView"
+                        android:layout_marginStart="@dimen/margin_cardView"
+                        android:layout_marginRight="@dimen/margin_cardView"
+                        android:layout_marginEnd="@dimen/margin_cardView"
+                        android:layout_marginBottom="@dimen/margin_cardView"
+                        android:layout_marginTop="@dimen/margin_textView" />
+
+                </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -23,8 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/es"/>
+            android:background="@drawable/es"
+            android:scaleType="fitCenter"/>
 
         <TextView
             android:id="@+id/card_text"
@@ -40,6 +40,7 @@
             android:background="#757575"
             android:textColor="@color/white"
             android:alpha="0.8"
+            android:maxLines="2"
             android:textSize="@dimen/font_title"
             tools:text="TEXTO"/>
 

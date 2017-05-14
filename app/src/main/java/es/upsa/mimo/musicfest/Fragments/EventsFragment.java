@@ -1,6 +1,7 @@
 package es.upsa.mimo.musicfest.Fragments;
 
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,7 +23,9 @@ import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 
+import es.upsa.mimo.musicfest.Activities.EventDetailActivity;
 import es.upsa.mimo.musicfest.Adapters.CardAdapterEvent;
+import es.upsa.mimo.musicfest.Helpers.JsonParser;
 import es.upsa.mimo.musicfest.Model.Event;
 import es.upsa.mimo.musicfest.R;
 
@@ -55,7 +58,7 @@ public class EventsFragment extends Fragment {
         final View v= inflater.inflate(R.layout.fragment_events, container, false);
 
         RequestQueue queue= Volley.newRequestQueue(getContext());
-        Resources res = getResources();
+        final Resources res = getResources();
         String url= "http://api.songkick.com/api/3.0/events.json?apikey="+res.getString(R.string.api_key)+"&artist_name=amaral";
 
 
@@ -64,9 +67,19 @@ public class EventsFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG,"response is: "+response);
-                eventParser(response);
+                events= JsonParser.eventsParser(response,getContext());
+              //  eventParser(response);
                 mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_concert);
                 mAdapter = new CardAdapterEvent(events);
+                mAdapter.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.d(TAG,"Evento clickado"+events.get(mRecyclerView.getChildAdapterPosition(view)).toString());
+                        Intent intent= new Intent(getContext(), EventDetailActivity.class);
+                        intent.putExtra("event",events.get(mRecyclerView.getChildAdapterPosition(view)));
+                        startActivity(intent);
+                    }
+                });
                 mRecyclerView.setAdapter(mAdapter);
                 mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
 
