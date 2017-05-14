@@ -32,6 +32,7 @@ import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -68,6 +69,8 @@ public class EventDetailActivity extends AppCompatActivity {
     FloatingActionButton fab_map;
     @BindView(R.id.recyclerview_comments)
     RecyclerView mRecyclerView;
+    @BindView(R.id.btn_follow)
+    Button btn_follow;
 
     private Event event;
     private FirebaseAuth auth;
@@ -102,7 +105,42 @@ public class EventDetailActivity extends AppCompatActivity {
         dateEnd.setText("Fecha de finalización: "+event.getEndDate());
 
 
+        final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final DatabaseReference myRefEvents2 = mDatabase.child("/user-eventsFollow/").child(userId);
 
+        ValueEventListener eventsListener2 = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get Event object and use the values to update the UI
+                int flag=0;
+
+
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    Event e= child.getValue(Event.class);
+                    if(e.getId().equals(event.getId())){
+                        flag=1;
+                    }
+                }
+                if(flag==1){
+                    btn_follow.setText("Siguiendo");
+                }else{
+                    btn_follow.setText("Seguir");
+                }
+
+
+                // ..
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w( "loadEvent:onCancelled", databaseError.toException());
+                // ...
+            }
+        };
+
+
+        myRefEvents2.addValueEventListener(eventsListener2);
 
         final DatabaseReference myRefEvents = mDatabase.child("/event-Comments/").child(event.getId());
         ValueEventListener eventsListener = new ValueEventListener() {
@@ -144,6 +182,20 @@ public class EventDetailActivity extends AppCompatActivity {
                 comment_body.setText(null);
             }
         });
+        btn_follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(btn_follow.getText().equals("Siguiendo")){
+                    mDatabase.child("/user-eventsFollow/").child(userId).child(event.getId()).removeValue();
+
+                    btn_follow.setText("Seguir");
+                }else{
+                    btn_follow.setText("Siguiendo");
+                    writeNewEventFollow(userId);
+
+                }
+            }
+        });
 
         fab_map.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,6 +205,17 @@ public class EventDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+    }
+
+    private void writeNewEventFollow(String userId) {
+        Map<String, Object> eventValues = event.toMap();
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/user-eventsFollow/" + userId + "/" + event.getId(), eventValues);
+
+
+        //Con update children no sobrescribimos otros nodos secundarios.
+        mDatabase.updateChildren(childUpdates);
 
     }
 

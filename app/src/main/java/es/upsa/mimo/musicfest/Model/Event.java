@@ -3,8 +3,11 @@ package es.upsa.mimo.musicfest.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.Exclude;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Javier on 25/04/2017.
@@ -175,6 +178,23 @@ public class Event implements Parcelable {
         endDate = in.readString();
     }
 
+    @Exclude
+    public Map<String,Object> toMap(){
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("title", title);
+        result.put("id", id);
+        result.put("type", type);
+        result.put("lat", lat);
+        result.put("lng", lng);
+        result.put("img", img);
+        result.put("performers", performers);
+        result.put("web_url", web_url);
+        result.put("city_name", city_name);
+        result.put("venue_name", venue_name);
+        result.put("startDate", startDate);
+        result.put("endDate", endDate);
+        return result;
+    }
     @Override
     public int describeContents() {
         return 0;

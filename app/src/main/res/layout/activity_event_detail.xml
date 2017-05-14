@@ -55,12 +55,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            android:paddingTop="@dimen/margin_cardView">
+            android:paddingTop="@dimen/margin_textView">
+
+            <FrameLayout
+                android:id="@+id/frame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true">
+                <include layout="@layout/btn_follow"
+                    android:id="@+id/btn_follow"
+                    app:layout_anchor="@id/appbarCollapsing"
+                    app:layout_anchorGravity="bottom|right|end"/>
+            </FrameLayout>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/event_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/frame"
                 android:layout_marginBottom="@dimen/margin_cardView"
                 android:layout_marginEnd="@dimen/margin_cardView"
                 android:layout_marginLeft="@dimen/margin_cardView"
