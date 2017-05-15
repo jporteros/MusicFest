@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -120,26 +121,42 @@ public class UserDetailActivity extends AppCompatActivity {
 
 
 
+
         fab_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(UserDetailActivity.this);
-                alertDialogBuilder.setTitle("Elegir Fuente");
-                alertDialogBuilder.setPositiveButton("Camara", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (!isCameraAvailable()){
-                            Toast.makeText(getApplicationContext(),"Camara no disponible",Toast.LENGTH_LONG).show();
-                        }else
-                            cameraIntent();
-                    }
-                });
-                alertDialogBuilder.setNegativeButton("Galeria", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        galeryIntent();
-                    }
-                });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+                if(Build.VERSION.SDK_INT>=21) {
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(UserDetailActivity.this);
+                    alertDialogBuilder.setTitle("Elegir Fuente");
+                    alertDialogBuilder.setPositiveButton("Camara", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (!isCameraAvailable()) {
+                                Toast.makeText(getApplicationContext(), "Camara no disponible", Toast.LENGTH_LONG).show();
+                            } else
+                                cameraIntent();
+                        }
+                    });
+                    alertDialogBuilder.setNegativeButton("Galeria", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            galeryIntent();
+                        }
+                    });
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+                }else{
+                    new android.support.v7.app.AlertDialog.Builder(view.getContext())
+                            .setTitle("Abrir Galeria")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                            {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    galeryIntent();
+                                }
+
+                            })
+                            .setNegativeButton("No", null)
+                            .show();
+                }
 
             }
         });

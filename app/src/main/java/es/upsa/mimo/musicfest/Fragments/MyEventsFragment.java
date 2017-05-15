@@ -33,6 +33,8 @@ public class MyEventsFragment extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
+    private static int viewPagerSelection=0;
+
     public MyEventsFragment() {
         // Required empty public constructor
     }
@@ -48,19 +50,29 @@ public class MyEventsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_my_events, container, false);
 
         viewPager = (ViewPager) v.findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+        setupViewPager(viewPager,savedInstanceState);
         tabLayout = (TabLayout) v.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+
+        if (savedInstanceState != null) { //when the user rotates the screen
+
+            viewPagerSelection = savedInstanceState.getInt("viewPagerSelected");
+            Log.d("VIEWPAGER",""+viewPager.getCurrentItem());
+        }
+        //Select the first item
+        viewPager.setCurrentItem(viewPagerSelection);
         return v;
+
     }
 
-    private void setupViewPager(ViewPager viewPager) {
+    private void setupViewPager(ViewPager viewPager,Bundle savedInstanceState) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
 
-        Log.d("dddd","viewpager");
         adapter.addFrag(FollowEventsFragment.newInstance(), "Seguidos");
         adapter.addFrag(EventsFragment.newInstance(), "Próximos 30 días");
         viewPager.setAdapter(adapter);
+
 
     }
     /**
@@ -100,5 +112,12 @@ public class MyEventsFragment extends Fragment {
             return mFragmentTitleList.get(position);
             //return null;
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d("VIEWPAGER","onsave"+viewPager.getCurrentItem());
+        outState.putInt("viewPagerSelected", viewPager.getCurrentItem());
     }
 }

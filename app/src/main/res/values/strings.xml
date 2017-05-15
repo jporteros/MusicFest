@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MusicFest</string>
+    <!--<string name="app_name">MusicFest</string>-->
     <string name="web_client_id">85529611787-cjcnqltrrii3okshsd3eqkpa0lgmar5d.apps.googleusercontent.com</string>
     <string name="api_key">DVFmrgZ4rUYEnl5O</string>
     <string name="api_img_eventsURL">http://images.sk-static.com/images/media/profile_images/events/%1$s/huge_avatar</string>

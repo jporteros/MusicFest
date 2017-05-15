@@ -1,6 +1,7 @@
 package es.upsa.mimo.musicfest.Fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -68,7 +70,9 @@ public class ArtistEventsFragment extends Fragment {
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                InputMethodManager inputMethodManager;
+                inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(artist_edit.getWindowToken(), 0);
                 final String artist = artist_edit.getText().toString();
 
                 if (TextUtils.isEmpty(artist)) {

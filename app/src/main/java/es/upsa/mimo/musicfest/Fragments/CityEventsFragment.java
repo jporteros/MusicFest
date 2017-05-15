@@ -1,6 +1,7 @@
 package es.upsa.mimo.musicfest.Fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.location.Geocoder;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
@@ -65,7 +67,7 @@ public class CityEventsFragment extends Fragment implements GoogleApiClient.OnCo
     private Geocoder mGeocoder;
     private static final LatLngBounds BOUNDS = new LatLngBounds(new LatLng(-85, -180), new LatLng(85, 180));
     private double lat,lon;
-    protected GoogleApiClient mGoogleApiClient;
+    protected static GoogleApiClient mGoogleApiClient;
     private SimpleDateFormat dateFormatter;
 
     public CityEventsFragment() {
@@ -81,7 +83,9 @@ public class CityEventsFragment extends Fragment implements GoogleApiClient.OnCo
 
     @Override
     public void onStart() {
-        if (mGoogleApiClient != null) {
+       Log.d(TAG,"Onstart");
+        if (mGoogleApiClient != null && !mGoogleApiClient.isConnected()) {
+            Log.d(TAG,"Onstart dentro");
             mGoogleApiClient.connect();
         }
 
@@ -91,10 +95,12 @@ public class CityEventsFragment extends Fragment implements GoogleApiClient.OnCo
     @Override
     public void onStop() {
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.stopAutoManage(getActivity());
             mGoogleApiClient.disconnect();
         }
         super.onStop();
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -102,10 +108,7 @@ public class CityEventsFragment extends Fragment implements GoogleApiClient.OnCo
         View v= inflater.inflate(R.layout.fragment_city_events, container, false);
         if(mGoogleApiClient == null || !mGoogleApiClient.isConnected()){
             try {
-                mGoogleApiClient = new GoogleApiClient.Builder(getContext())
-                        .enableAutoManage(getActivity(), 0 /* clientId */, this)
-                        .addApi(Places.GEO_DATA_API)
-                        .build();
+                buildGoogleApiClient();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -149,6 +152,11 @@ public class CityEventsFragment extends Fragment implements GoogleApiClient.OnCo
              The adapter stores each Place suggestion in a AutocompletePrediction from which we
              read the place ID and title.
               */
+
+            InputMethodManager inputMethodManager;
+            inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(mAutocompleteView.getWindowToken(), 0);
+
             final AutocompletePrediction item = mPlaceAdapter.getItem(position);
             final String placeId = item.getPlaceId();
             final CharSequence primaryText = item.getPrimaryText(null);

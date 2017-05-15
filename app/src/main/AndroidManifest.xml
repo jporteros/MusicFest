@@ -34,6 +34,10 @@
         <receiver android:name=".services.OnBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="es.upsa.mimo.musicfest.services.ALARM_ACTION" />
+                <action android:name="es.upsa.mimo.musicfest.services.ALARM_CANCEL" />
+                <action android:name="es.upsa.mimo.musicfest.services.ALARM_START" />
+                <action android:name="es.upsa.mimo.musicfest.services.APP_OPENED" />
             </intent-filter>
         </receiver>
 

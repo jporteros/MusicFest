@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item android:id="@+id/user_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="Perfil"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/checkbox_notifications"
+        android:title="Notificaciones"
+        android:orderInCategory="10"
+        android:visible="true"
+        android:checkable="true"
+        android:checked="true"/>
+</menu>
