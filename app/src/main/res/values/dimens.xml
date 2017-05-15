@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="toolbar_elevation">8dp</dimen>
+    <dimen name="toolbar_elevation">4dp</dimen>
     <dimen name="card_margin">8dp</dimen>
     <dimen name="activity_horizontal_margin">20dp</dimen>
     <dimen name="font_title">18sp</dimen>
@@ -11,5 +11,8 @@
     <dimen name="cardElevation">6dp</dimen>
     <dimen name="margin_textView">16dp</dimen>
     <dimen name="textSizeTitle">25sp</dimen>
+    <dimen name="rv_margin">12dp</dimen>
+    <dimen name="rv_padding">4dp</dimen>
+    <dimen name="margin_bottom">5dp</dimen>
 
 </resources>

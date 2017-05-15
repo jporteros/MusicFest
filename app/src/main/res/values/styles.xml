@@ -31,5 +31,18 @@
         <item name="android:textStyle">normal</item>
 
     </style>
+    <style name="CustomTabLayoutStyle" parent="Base.Widget.Design.TabLayout">
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="tabTextAppearance">@style/CustomTabTexStyle</item>
+    </style>
+    <style name="CustomTabTexStyle" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="textAllCaps">true</item>
+    </style>
 
+    <style name="CollapsingThemeToolbarDarkOverflow" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textColorSecondary">@color/colorAccent</item>
+
+    </style>
 </resources>

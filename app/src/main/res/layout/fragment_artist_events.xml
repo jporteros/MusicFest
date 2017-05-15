@@ -1,0 +1,56 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="es.upsa.mimo.musicfest.Fragments.ArtistEventsFragment">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/margin_bottom"
+        android:layout_marginLeft="@dimen/margin_textView"
+        android:layout_marginRight="@dimen/margin_textView"
+        android:layout_marginTop="@dimen/rv_margin">
+
+        <EditText
+            android:id="@+id/edit_text_artist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:hint="@string/artist_name_hint"
+            android:imeActionId="@+id/login"
+            android:imeOptions="actionUnspecified"
+            android:scrollHorizontally="false" />
+
+    </android.support.design.widget.TextInputLayout>
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/textInput">
+
+
+         <include layout="@layout/btn_search"></include>
+    </FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_concert"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/frame"
+        android:paddingTop="@dimen/rv_padding"
+        android:layout_marginTop="@dimen/rv_margin">
+
+    </android.support.v7.widget.RecyclerView>
+</RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

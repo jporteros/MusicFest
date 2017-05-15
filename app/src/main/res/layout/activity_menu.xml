@@ -9,7 +9,13 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <include layout="@layout/content_layout"/>
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/content_layout"/>
+
+    </android.support.design.widget.CoordinatorLayout>
 
     <!-- Layout del menú lateral (Navigation View) -->
     <android.support.design.widget.NavigationView

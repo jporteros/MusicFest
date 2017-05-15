@@ -48,32 +48,8 @@
             android:layout_below="@+id/comment_username"
             android:layout_height="wrap_content"
             tools:text="Comentario"/>
-        <Button
-            android:id="@+id/delete_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/comment_body"
-            android:text="Eliminar"
-            android:clickable="true"
-            android:background="@drawable/btn_default_accent_stroke_material"
-            style="?android:borderlessButtonStyle"
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
-        <Button
-            android:id="@+id/edit_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/comment_body"
-            android:layout_marginTop="10dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:text="Editar"
-            android:clickable="true"
-            android:background="@drawable/btn_default_accent_stroke_material"
-            style="?android:borderlessButtonStyle"
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
+        <include layout="@layout/btn_elim"></include>
+        <include layout="@layout/btn_edit"></include>
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

@@ -22,17 +22,21 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import es.upsa.mimo.musicfest.Helpers.ImagesHelper;
 import es.upsa.mimo.musicfest.R;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     private static final String TAG = "LoginActivity";
     private GoogleApiClient mGoogleApiClient;
-    //private SignInButton btnSignin;
+
+    private DatabaseReference mDatabase;
 
     @BindView(R.id.sign_in_button)
     SignInButton btnSignin;
@@ -47,6 +51,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         mAuth = FirebaseAuth.getInstance();
 
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -60,7 +65,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                // ...
             }
         };
 
@@ -150,6 +154,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }else{
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            mDatabase.child("users").child(user.getUid()).child("img").setValue(user.getPhotoUrl().toString());
                             Intent intent = new Intent(getApplicationContext(),MenuActivity.class);
                             startActivity(intent);
                         }

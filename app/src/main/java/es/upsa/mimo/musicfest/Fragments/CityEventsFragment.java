@@ -1,24 +1,13 @@
 package es.upsa.mimo.musicfest.Fragments;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.provider.SyncStateContract;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -41,78 +30,76 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
-import butterknife.internal.Utils;
 import es.upsa.mimo.musicfest.Activities.EventDetailActivity;
 import es.upsa.mimo.musicfest.Adapters.CardAdapterEvent;
 import es.upsa.mimo.musicfest.Adapters.PlaceAutocompleteAdapter;
 import es.upsa.mimo.musicfest.Helpers.JsonParser;
-import es.upsa.mimo.musicfest.Manifest;
 import es.upsa.mimo.musicfest.Model.Event;
 import es.upsa.mimo.musicfest.R;
-
-import static android.R.attr.bitmap;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EventsFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener{
-    private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<Event> events = new ArrayList<>();
+public class CityEventsFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener{
 
-    private SimpleDateFormat dateFormatter;
-    private double lat,lon;
+    private final static String TAG = "CityEventsFragment";
     private CardAdapterEvent mAdapter;
+    private RecyclerView mRecyclerView;
+    private ArrayList<Event> events = new ArrayList<>();
     private PlaceAutocompleteAdapter mPlaceAdapter;
     private AutoCompleteTextView mAutocompleteView;
-    private String direc, cityBD;
-    protected GoogleApiClient mGoogleApiClient;
-    private Calendar calendar;
     private Geocoder mGeocoder;
-    private final static String TAG = "EventsFragment";
     private static final LatLngBounds BOUNDS = new LatLngBounds(new LatLng(-85, -180), new LatLng(85, 180));
+    private double lat,lon;
+    protected GoogleApiClient mGoogleApiClient;
+    private SimpleDateFormat dateFormatter;
 
-    public EventsFragment() {
+    public CityEventsFragment() {
         // Required empty public constructor
     }
 
-    public static EventsFragment newInstance() {
+    public static CityEventsFragment newInstance() {
 
-       // Bundle args = new Bundle();
-
-        EventsFragment fragment = new EventsFragment();
-       // fragment.setArguments(args);
+        CityEventsFragment fragment = new CityEventsFragment();
         return fragment;
     }
 
+
+    @Override
+    public void onStart() {
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
+
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+        super.onStop();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View v= inflater.inflate(R.layout.fragment_events, container, false);
-
+        View v= inflater.inflate(R.layout.fragment_city_events, container, false);
         if(mGoogleApiClient == null || !mGoogleApiClient.isConnected()){
             try {
                 mGoogleApiClient = new GoogleApiClient.Builder(getContext())
@@ -139,44 +126,11 @@ public class EventsFragment extends Fragment implements GoogleApiClient.OnConnec
         mGeocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
         dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
-
-/*
-        RequestQueue queue= Volley.newRequestQueue(getContext());
-        final Resources res = getResources();
-        String url= "http://api.songkick.com/api/3.0/events.json?apikey="+res.getString(R.string.api_key)+"&artist_name=amaral";
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
-
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG,"response is: "+response);
-                events= JsonParser.eventsParser(response,getContext());
-              //  eventParser(response);
-                mAdapter = new CardAdapterEvent(events);
-                mAdapter.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.d(TAG,"Evento clickado"+events.get(mRecyclerView.getChildAdapterPosition(view)).toString());
-                        Intent intent= new Intent(getContext(), EventDetailActivity.class);
-                        intent.putExtra("event",events.get(mRecyclerView.getChildAdapterPosition(view)));
-                        startActivity(intent);
-                    }
-                });
-                mRecyclerView.setAdapter(mAdapter);
-                mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
-
-            }
-        }, new Response.ErrorListener(){
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "Volley Response ERROR");
-            }
-        });
-        queue.add(stringRequest);
-*/
         return v;
     }
+    /**
+     * Create API CLIENT
+     */
     private synchronized void buildGoogleApiClient() {
         Log.d("location","buildapiclient");
         mGoogleApiClient = new GoogleApiClient.Builder(getContext())
@@ -184,24 +138,6 @@ public class EventsFragment extends Fragment implements GoogleApiClient.OnConnec
                 .addApi(Places.GEO_DATA_API)
                 .build();
     }
-
-    @Override
-    public void onStart() {
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.connect();
-        }
-
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
-        }
-        super.onStop();
-    }
-
 
     //Places
     private AdapterView.OnItemClickListener mAutocompleteClickListener
@@ -251,11 +187,11 @@ public class EventsFragment extends Fragment implements GoogleApiClient.OnConnec
             final Place place = places.get(0);
 
 
-            direc=place.getAddress().toString();
+          //  direc=place.getAddress().toString();
 
             lat=place.getLatLng().latitude;
             lon=place.getLatLng().longitude;
-            direc=place.getAddress().toString();
+          //  direc=place.getAddress().toString();
 
             Log.d("CITYBD",lat+"____"+lon);
 
@@ -264,18 +200,15 @@ public class EventsFragment extends Fragment implements GoogleApiClient.OnConnec
             Calendar calendar2= Calendar.getInstance();
             calendar2.add(Calendar.DAY_OF_MONTH,30);
 
-            Date date_start= Calendar.getInstance().getTime();
-            Date date_end= calendar2.getTime();
-            String dateStart = dateFormatter.format(date_start);
-            String dateEnd = dateFormatter.format(date_end);
 
-            String url= "http://api.songkick.com/api/3.0/events.json?apikey="+res.getString(R.string.api_key)+"&location=geo:"+lat+","+lon+"&min_date="+dateStart+"&max_date="+dateEnd;
+
+            String url= "http://api.songkick.com/api/3.0/events.json?apikey="+res.getString(R.string.api_key)+"&location=geo:"+lat+","+lon;
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
 
                 @Override
                 public void onResponse(String response) {
                     Log.d(TAG,"response is: "+response);
-                    events=JsonParser.eventsParser(response,getContext());
+                    events= JsonParser.eventsParser(response,getContext());
                     mAdapter = new CardAdapterEvent(events);
                     mAdapter.setOnClickListener(new View.OnClickListener() {
                         @Override

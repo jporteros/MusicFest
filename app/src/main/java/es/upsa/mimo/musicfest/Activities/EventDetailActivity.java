@@ -92,7 +92,7 @@ public class EventDetailActivity extends AppCompatActivity {
 
         collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle("Poner titulo");
+        collapsingToolbar.setTitle(event.getTitle());
         collapsingToolbar.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
         collapsingToolbar.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
 

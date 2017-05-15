@@ -39,6 +39,7 @@
         android:layout_marginBottom="16dp"
         android:text="correo"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
     <TextView
         android:id="@+id/username"
         android:layout_width="wrap_content"
@@ -47,13 +48,6 @@
         android:layout_above="@id/email"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textStyle="bold" />
-    <!--TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="usuario"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
-        android:textStyle="bold"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp" /-->
+
+
 </RelativeLayout>

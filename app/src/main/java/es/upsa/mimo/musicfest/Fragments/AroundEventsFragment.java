@@ -58,7 +58,7 @@ import es.upsa.mimo.musicfest.Model.Event;
 import es.upsa.mimo.musicfest.R;
 
 
-public class AroundEventsFragment extends Fragment implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,LocationListener {
+public class AroundEventsFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
     private final static String TAG = "AroundEventsFragment";
     private static final int LOCATION_REQUEST_CODE = 1;
     private static final int PETICION_CONFIG_UBICACION = 2;
@@ -66,7 +66,7 @@ public class AroundEventsFragment extends Fragment implements OnMapReadyCallback
     private LocationRequest mLocationRequest;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
-    private ArrayList<Event> events= new ArrayList<>();
+    private ArrayList<Event> events = new ArrayList<>();
     private HashMap<Marker, Event> mapEvents = new HashMap<>();
 
     public AroundEventsFragment() {
@@ -82,13 +82,13 @@ public class AroundEventsFragment extends Fragment implements OnMapReadyCallback
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View v=inflater.inflate(R.layout.fragment_around_events, container, false);
+        final View v = inflater.inflate(R.layout.fragment_around_events, container, false);
 
-        SupportMapFragment mapFragment= SupportMapFragment.newInstance();
-        getChildFragmentManager().beginTransaction().add(R.id.map_around,mapFragment).commit();
+        SupportMapFragment mapFragment = SupportMapFragment.newInstance();
+        getChildFragmentManager().beginTransaction().add(R.id.map_around, mapFragment).commit();
         mapFragment.getMapAsync(this);
 
-        if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()){
+        if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
 
             buildGoogleApiClient();
             mGoogleApiClient.connect();
@@ -101,7 +101,7 @@ public class AroundEventsFragment extends Fragment implements OnMapReadyCallback
      * Create API CLIENT
      */
     private synchronized void buildGoogleApiClient() {
-        Log.d("location","buildapiclient");
+        Log.d("location", "buildapiclient");
         mGoogleApiClient = new GoogleApiClient.Builder(getContext())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -111,10 +111,22 @@ public class AroundEventsFragment extends Fragment implements OnMapReadyCallback
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-      //  Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-      //  Log.d("location","location onconnect"+location.toString());
-        if(getContext()==null){
+        //  Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        //  Log.d("location","location onconnect"+location.toString());
+        if (getContext() == null) {
             return;
+        }
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+             return;
+        }
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+        if(mLastLocation!= null){
+            double dLatitude = mLastLocation.getLatitude();
+            double dLongitude = mLastLocation.getLongitude();
+
+            Log.d("location","on loc changed"+dLatitude+dLongitude);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(dLatitude, dLongitude), 16));
         }
 
 
@@ -306,13 +318,18 @@ public class AroundEventsFragment extends Fragment implements OnMapReadyCallback
 
     @Override
     public void onStart() {
-        mGoogleApiClient.connect();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
+
         super.onStart();
     }
 
     @Override
     public void onStop() {
-        mGoogleApiClient.disconnect();
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
         super.onStop();
     }
 

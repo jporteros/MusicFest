@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/delete_comment"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_below="@+id/comment_body"
+    android:text="Eliminar"
+    android:clickable="true"
+    android:background="@drawable/btn_default_accent_stroke_material"
+    style="?android:borderlessButtonStyle"
+    android:textColor="@android:color/black"
+    android:textStyle="bold" />

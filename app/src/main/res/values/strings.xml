@@ -4,8 +4,20 @@
     <string name="api_key">DVFmrgZ4rUYEnl5O</string>
     <string name="api_img_eventsURL">http://images.sk-static.com/images/media/profile_images/events/%1$s/huge_avatar</string>
     <string name="api_img_artistURL">http://images.sk-static.com/images/media/profile_images/artists/%1$s/huge_avatar</string>
+    <string name="place_details">&lt;b&gt;%1$s&lt;/b&gt;&lt;br/&gt;&lt;i&gt;Place Id: %2$s&lt;/i&gt;&lt;br/&gt;Address: %3$s&lt;br/&gt;Phone: %4$s&lt;br/&gt;Website: %5$s</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="google_map_text_button">Como llegar</string>
+    <string name="autocompleteCity">Ciudad</string>
+    <string name="around">Cercanos</string>
+    <string name="search">Buscar</string>
+    <string name="my_events">Mis Eventos</string>
+    <string name="about">About</string>
+    <string name="Configuration">Configuracion</string>
+    <string name="artist_name_hint">Nombre Artista</string>
+    <string name="follow">Seguir</string>
+    <string name="Search_button">Buscar</string>
+    <string name="add_artist">Introduzca un artista</string>
 </resources>

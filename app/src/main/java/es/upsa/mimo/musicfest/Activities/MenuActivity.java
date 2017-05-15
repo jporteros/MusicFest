@@ -1,5 +1,8 @@
 package es.upsa.mimo.musicfest.Activities;
 
+import android.app.ActivityManager;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
@@ -9,22 +12,44 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.TextView;
+
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 import es.upsa.mimo.musicfest.Fragments.AroundEventsFragment;
-import es.upsa.mimo.musicfest.Fragments.EventsFragment;
+import es.upsa.mimo.musicfest.Fragments.MyEventsFragment;
+import es.upsa.mimo.musicfest.Fragments.SearchEventsFragment;
 import es.upsa.mimo.musicfest.R;
+import es.upsa.mimo.musicfest.services.SoonEventsNotifications;
 
 public class MenuActivity extends AppCompatActivity {
     private static final String TAG = "MenuActivity";
+    private static final Integer MYRESULT_CODE =1;
+    private  FirebaseUser user;
+    private FirebaseAuth mAuth;
+    private int itemSelected=0;
     @BindView(R.id.drawer)
     DrawerLayout mDrawer;
 
@@ -33,20 +58,68 @@ public class MenuActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    private CircleImageView circleImageView;
+    private TextView name, email;
+    private DatabaseReference mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         ButterKnife.bind(this);
-
-
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        if(!isServiceRunning()){
+           Log.d(TAG,"no esta activado");
+            startService(new Intent(getApplicationContext(),SoonEventsNotifications.class));
+        }
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
+            Log.d("aaa","toolabar not null");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(new DrawerArrowDrawable(toolbar.getContext()));
         }
 
+        View headerview = nvDrawer.getHeaderView(0);
+        circleImageView = (CircleImageView) headerview.findViewById(R.id.circle_image);
+        name = (TextView) headerview.findViewById((R.id.username));
+        email = (TextView) headerview.findViewById((R.id.email));
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        name.setText(user.getDisplayName());
+        email.setText(user.getEmail());
+        mDatabase.child("users").child(user.getUid()).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // Get user value
+                        String img = dataSnapshot.child("img").getValue().toString();
+                        Picasso.with(circleImageView.getContext()).load(img).into(circleImageView);
+                        Log.d(TAG,"imagen url"+img);
+                        // ...
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+                        // ...
+                    }
+                });
+        circleImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), UserDetailActivity.class);
+                startActivityForResult(intent, MYRESULT_CODE);
+            }
+        });
+
         setupNavDrawerContent(nvDrawer);
+        int drawerSelection=0;
+        if (savedInstanceState != null) //when the user rotates the screen
+            drawerSelection = savedInstanceState.getInt("drawerSelection",0);
+        //Select the first item
+        selectDrawerItem(nvDrawer.getMenu().getItem(drawerSelection));
+
       /*  nvDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -67,21 +140,57 @@ public class MenuActivity extends AppCompatActivity {
 
         //Mirar a poner aqui los datos del nv
     }
+    private boolean isServiceRunning() {
+        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)){
+            if("es.upsa.mimo.musicfest.services.SoonEventsNotifications".equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private void selectDrawerItem(MenuItem menuItem) {
         Fragment fragment =null;
 
         switch (menuItem.getItemId()){
-            case R.id.menu_seccion_1:
-                Toast.makeText(getApplicationContext(),"secccion1",Toast.LENGTH_SHORT).show();
-                fragment= EventsFragment.newInstance();
+            case R.id.my_events:
+                fragment= MyEventsFragment.newInstance();
+                itemSelected=0;
                 break;
-            case R.id.amigos:
-                Toast.makeText(getApplicationContext(),"secccion2",Toast.LENGTH_SHORT).show();
+            case R.id.search_events:
+                fragment = SearchEventsFragment.newInstance();
+                itemSelected=1;
+                break;
+            case R.id.around:
                 fragment= AroundEventsFragment.newInstance();
+                itemSelected=2;
                 break;
-            case R.id.menu_seccion_3:
-                Toast.makeText(getApplicationContext(),"secccion3",Toast.LENGTH_SHORT).show();
+
+            case R.id.menu_cerrar_sesion:
+
+                new AlertDialog.Builder(this)
+                        .setTitle("Cerrando Sesion")
+                        .setMessage("Esta seguro de que quieres cerrar sesion?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                               /* Log.i("NavigationView", "Cerrar Sesion");
+                                if(isServiceRunning()){
+                                    stopService(new Intent(getApplicationContext(),Notifications.class));
+                                }else{
+
+                                }*/
+                                mAuth.signOut();
+                                Intent intent = new Intent(MenuActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
                 break;
         }
         if (fragment != null) {
@@ -96,6 +205,11 @@ public class MenuActivity extends AppCompatActivity {
         mDrawer.closeDrawers();
 
     }
+    private void signOut() {
+        // Firebase sign out
+        mAuth.signOut();
+    }
+
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -122,5 +236,37 @@ public class MenuActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG,"RESULT-- requestCOde: "+requestCode+" resultCOde: "+resultCode+ "user: "+user);
+        if(requestCode== MYRESULT_CODE && resultCode==RESULT_OK && user!=null){
+            Log.d(TAG,"DENTRO REQUEST");
+            mDatabase.child("users").child(user.getUid()).addListenerForSingleValueEvent(
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            // Get user value
+                            String img = dataSnapshot.child("img").getValue().toString();
+                            Picasso.with(circleImageView.getContext()).load(img).into(circleImageView);
+                            Log.d(TAG,"imagen url"+img);
+                            // ...
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+                            // ...
+                        }
+                    });
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("drawerSelection", itemSelected);
     }
 }

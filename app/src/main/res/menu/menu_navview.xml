@@ -2,37 +2,31 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/menu_seccion_1"
+            android:id="@+id/my_events"
             android:icon="@drawable/ic_events"
-            android:title="Mis Eventos"/>
+            android:title="@string/my_events"/>
         <item
-            android:id="@+id/amigos"
-            android:icon="@drawable/ic_friends"
-            android:title="Amigos"/>
+            android:id="@+id/search_events"
+            android:icon="@drawable/ic_search"
+            android:title="@string/search"/>
         <item
-            android:id="@+id/menu_seccion_3"
-            android:icon="@drawable/ic_events"
-            android:title="Eventos"/>
-        <item
-            android:id="@+id/cercanos"
+            android:id="@+id/around"
             android:icon="@drawable/ic_map_ndrawer"
-            android:title="Cercanos"/>
+            android:title="@string/around"/>
+
     </group>
 
     <item
         android:id="@+id/navigation_subheader"
-        android:title="Configuracion">
+        android:title="@string/Configuration">
         <menu>
             <item
-                android:id="@+id/menu_account"
-                android:title="Mi cuenta"/>
+                android:id="@+id/menu_about"
+                android:title="@string/about"/>
             <item
                 android:id="@+id/menu_cerrar_sesion"
                 android:title="Cerrar Sesion"/>
 
-            <item
-                android:id="@+id/menu_Salir"
-                android:title="Salir"/>
         </menu>
     </item>
 </menu>

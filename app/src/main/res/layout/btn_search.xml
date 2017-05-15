@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Button xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/followButton"
-    android:text="Seguir"
+    android:id="@+id/searchButton"
+    android:text="@string/Search_button"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:textColor="?attr/colorAccent"
-    android:background="@drawable/btn_default_accent_stroke_material"
-    style="?android:borderlessButtonStyle"/>
+    style="?android:buttonStyle" />
